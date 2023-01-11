@@ -56,6 +56,7 @@
     color: #111;
     white-space: nowrap;
     outline: none;
+    overflow: scroll;
 
     &.selected {
       border: none;
