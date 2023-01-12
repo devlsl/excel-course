@@ -3,22 +3,30 @@ const CODES = {
   Z: 90
 }
 
-function toCell() {
+function toCell(_, index) {
   return `
-    <div class="cell" contentEditable></div>
+    <div class="cell" contentEditable data-col="${index}"></div>
   `
 }
 
-function toColumn(col) {
+function toColumn(col, index) {
+
   return `
-    <div class="column">${col}</div>
+    <div class="column" data-type="resizable" data-col="${index}">
+      ${col}
+      <div class="col-resize" data-resize="col"></div>
+    </div>
   `
 }
 
 function createRow(content, info = '') {
+  const resize = (info === '') ? '' : '<div class="row-resize" data-resize="row"></div>'
   return `
-    <div class="row">
-      <div class="row-info">${info}</div>
+    <div class="row" ${(info === '') ? '' : 'data-type="resizable"'}>
+      <div class="row-info">
+        ${info}
+        ${resize}
+      </div>
       <div class="row-data">${content}</div>
     </div>
   `
@@ -51,48 +59,3 @@ export function createTable(rowsCount = 15) {
 
   return rows.join(' ')
 }
-
-// <div className="row">
-//   <div className="row-info"></div>
-//   <div className="row-data">
-//     <div className="column">
-//       A
-//     </div>
-//     <div className="column">
-//       B
-//     </div>
-//     <div className="column">
-//       C
-//     </div>
-//   </div>
-// </div>
-// <div className="row">
-//   <div className="row-info">
-//     1
-//   </div>
-//   <div className="row-data">
-//     <div className="cell selected" contentEditable>A1</div>
-//     <div className="cell" contentEditable>B1</div>
-//     <div className="cell" contentEditable>C1</div>
-//   </div>
-// </div>
-// <div className="row">
-//   <div className="row-info">
-//     2
-//   </div>
-//   <div className="row-data">
-//     <div className="cell selected" contentEditable>A2</div>
-//     <div className="cell" contentEditable>B2</div>
-//     <div className="cell" contentEditable>C2</div>
-//   </div>
-// </div>
-// <div className="row">
-//   <div className="row-info">
-//     3
-//   </div>
-//   <div className="row-data">
-//     <div className="cell selected" contentEditable>A3</div>
-//     <div className="cell" contentEditable>B3</div>
-//     <div className="cell" contentEditable>C3</div>
-//   </div>
-// </div>
