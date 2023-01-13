@@ -27,8 +27,55 @@ export class Table extends ExcelComponent {
   init() {
     super.init()
 
-    const $cell = this.$root.find('[data-id="1:0"]')
+    const $cell = this.$root.find('[data-id="0:0"]')
     this.selection.select($cell)
+
+    this.$root.$el.addEventListener('keydown', event => {
+      let selectedCellId = this.selection.current.id(true)
+      let newSelectedCell
+      switch(event.key) {
+        case 'ArrowRight':
+          event.preventDefault()
+          selectedCellId.col++
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        case 'ArrowDown':
+          event.preventDefault()
+          selectedCellId.row++
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        case 'ArrowLeft':
+          event.preventDefault()
+          selectedCellId.col--
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        case 'ArrowUp':
+          event.preventDefault()
+          selectedCellId.row--
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        case 'Tab':
+          event.preventDefault()
+          selectedCellId.col++
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        case 'Enter':
+          event.preventDefault()
+          selectedCellId.row++
+          newSelectedCell = this.$root.find(`[data-id="${selectedCellId.row}:${selectedCellId.col}"]`)
+          break
+        default:
+          newSelectedCell = this.selection.current
+          break
+      }
+      if (newSelectedCell.$el !== null) {
+        this.selection.select(newSelectedCell)
+        newSelectedCell.$el.focus()
+      }
+
+    })
+
+    // console.log()
   }
 
   onMousedown(event) {
@@ -37,16 +84,18 @@ export class Table extends ExcelComponent {
     } else if (isCell(event)) {
       const $target = $(event.target)
       if (event.shiftKey) {
-
-
         const $cells = matrix(this.selection.current, $target)
           .map(cellId => this.$root.find(`[data-id="${cellId}"]`))
-
         this.selection.selectGroup($cells)
       } else {
         this.selection.select($target)
       }
     }
   }
+
+
+
+
+
 }
 
