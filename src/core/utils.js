@@ -4,3 +4,28 @@ export function capitalize(string) {
   }
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+export function range(start, end) {
+  if (start > end) {
+    [end, start] = [start, end]
+  }
+
+  return new Array(end - start + 1)
+    .fill('')
+    .map((_, index) => start + index)
+}
+
+export function matrix($current, $target) {
+  const currentId = $current.id(true)
+  const targetId = $target.id(true)
+
+  const rowsId = range(currentId.row, targetId.row)
+  const colsId = range(currentId.col, targetId.col)
+
+  return rowsId.reduce((acc, rowId) => {
+    colsId.forEach(colId => {
+      acc.push(`${rowId}:${colId}`)
+    })
+    return acc
+  }, [])
+}
