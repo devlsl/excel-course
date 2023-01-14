@@ -31,6 +31,9 @@ export class Table extends ExcelComponent {
     this.selection.select($cell)
 
     this.$root.$el.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
+        return
+      }
       let selectedCellId = this.selection.current.id(true)
       let newSelectedCell
       switch(event.key) {
