@@ -15,17 +15,3 @@ export function range(start, end) {
     .map((_, index) => start + index)
 }
 
-export function matrix($current, $target) {
-  const currentId = $current.id(true)
-  const targetId = $target.id(true)
-
-  const rowsId = range(currentId.row, targetId.row)
-  const colsId = range(currentId.col, targetId.col)
-
-  return rowsId.reduce((acc, rowId) => {
-    colsId.forEach(colId => {
-      acc.push(`${rowId}:${colId}`)
-    })
-    return acc
-  }, [])
-}
